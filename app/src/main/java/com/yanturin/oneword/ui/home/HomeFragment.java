@@ -1,67 +1,55 @@
 package com.yanturin.oneword.ui.home;
 
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.yanturin.oneword.DatabaseHelper;
+import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
-import com.yanturin.oneword.ViewPagerAdapter;
+import com.yanturin.oneword.SqlQueries;
+import com.yanturin.oneword.classes.Word;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        textView.setText("This is home fragment");
-        String[] ranks = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
-        DatabaseHelper mDBHelper = new DatabaseHelper(root.getContext());
-        SQLiteDatabase mDb;
-        try {
-            mDBHelper.updateDataBase();
-        } catch (IOException mIOException) {
-            throw new Error("UnableToUpdateDatabase");
+        ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
+        Date dtNow = new Date();
+        boolean isToday = false;
+        if(arrWordsForShow.size() > 0){
+            arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
+            if(dtNow.getDay() == arrWordsForShow.get(arrWordsForShow.size()-1).date.getDay() && dtNow.getMonth() == arrWordsForShow.get(arrWordsForShow.size()-1).date.getMonth() && dtNow.getYear() == arrWordsForShow.get(arrWordsForShow.size()-1).date.getYear()){
+                isToday = true;
+            }
         }
-
-        try {
-            mDb = mDBHelper.getWritableDatabase();
-        } catch (SQLException mSQLException) {
-            throw mSQLException;
+        if(!isToday){
+            final Random random = new Random();
+            ArrayList<Word> wordsWithoutDate = SqlQueries.Instance().GetWithoutDate(root.getContext());
+            Word todayWord = wordsWithoutDate.get(random.nextInt(wordsWithoutDate.size()));
+            todayWord.date = dtNow;
+            arrWordsForShow.add(todayWord);
+            SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(dtNow), todayWord.word, root.getContext());
         }
-
-        ArrayList<String> arrWords = new ArrayList<>();
-        ArrayList<String> arrExplanation = new ArrayList<>();
-
-        Cursor cursor = mDb.rawQuery("SELECT * FROM words", null);
-        cursor.moveToFirst();
-        int indexWord = cursor.getColumnIndex("word");
-        int indexExplanation = cursor.getColumnIndex("explanation");
-
-        while (!cursor.isAfterLast()) {
-            arrWords.add(cursor.getString(indexWord));
-            arrExplanation.add(cursor.getString(indexExplanation));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        ViewPager pager = root.findViewById(R.id.pager);
-        PagerAdapter adapter = new ViewPagerAdapter(root.getContext(), ranks, arrWords, arrExplanation);
+        ViewPager pager = root.findViewById(R.id.pagerHome);
+        PagerAdapter adapter = new ViewPagerAdapterHome(root.getContext(), arrWordsForShow);
         pager.setAdapter(adapter);
-        pager.setCurrentItem(5);
+        pager.setCurrentItem(arrWordsForShow.size()-1);
         return root;
     }
+
 }

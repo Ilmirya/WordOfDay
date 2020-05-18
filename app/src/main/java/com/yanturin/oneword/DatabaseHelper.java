@@ -1,9 +1,12 @@
 package com.yanturin.oneword;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.yanturin.oneword.classes.Word;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             mNeedUpdate = false;
         }
+    }
+
+    public void UpdateRowByWord(ContentValues cv, String word){
+        SQLiteDatabase db = getWritableDatabase();
+        int updCount = db.update("words", cv, "word = ?", new String[]{word});
     }
 
     private boolean checkDataBase() {
