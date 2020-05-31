@@ -39,7 +39,7 @@ public class SelectItemActivity extends AppCompatActivity {
         tvExplanation.setText(explanation);
         tvDate.setText(date);
 
-        ivFavorite.setImageResource((favorite == 1)? R.drawable.iconfinder_instagram48: R.drawable.iconfindersed48);
+        ivFavorite.setImageResource((favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
 
         ivFavorite.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -52,7 +52,7 @@ public class SelectItemActivity extends AppCompatActivity {
                     favorite = 1;
                 }
                 ImageView ivFavorite1 = findViewById(R.id.ivFavorite);
-                ivFavorite1.setImageResource((favorite == 1)? R.drawable.iconfinder_instagram48: R.drawable.iconfindersed48);
+                ivFavorite1.setImageResource((favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
             }
         });
     }

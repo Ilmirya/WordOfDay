@@ -11,6 +11,24 @@ public class Word {
     public Date date;
     public int index;
     public String symbol;
+    public String example;
+    public String condition;
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+    }
 
     public String getWord() {
         return word;

@@ -15,6 +15,8 @@ import com.yanturin.oneword.R;
 import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -51,11 +53,26 @@ public class ViewPagerAdapterHome extends PagerAdapter {
         TextView tvWord = itemView.findViewById(R.id.tvWord);
         TextView tvExplanation = itemView.findViewById(R.id.tvExplanation);
         ImageView ivFavorite = itemView.findViewById(R.id.ivFavorite);
+        TextView tvExample = itemView.findViewById(R.id.tvExample);
+        TextView tvCondition = itemView.findViewById(R.id.tvCondition);
         tvWord.setText(gArrListWords.get(position).word);
-        tvExplanation.setText(gArrListWords.get(position).explanation);
+        tvExample.setText(gArrListWords.get(position).example);
+        tvCondition.setText(gArrListWords.get(position).condition);
+        String explanation = gArrListWords.get(position).explanation;
+        if(gArrListWords.get(position).explanation.contains("|")){
+            String[] arrStrTmp = gArrListWords.get(position).explanation.replace('|','/').split("/");
+            for(int i = 0; i < arrStrTmp.length; i++){
+                if(i == 0) explanation = arrStrTmp[i];
+                else  explanation += "\n" + arrStrTmp[i];
+            }
+        }
+        else{
+            explanation = gArrListWords.get(position).explanation;
+        }
+        tvExplanation.setText(explanation);
         tvDate.setText(iso8601Format.format(gArrListWords.get(position).getDate()));
         // создаем обработчик нажатия
-        ivFavorite.setImageResource((gArrListWords.get(position).favorite == 1)? R.drawable.iconfinder_instagram48: R.drawable.iconfindersed48);
+        ivFavorite.setImageResource((gArrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
 
         ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +90,7 @@ public class ViewPagerAdapterHome extends PagerAdapter {
                     SqlQueries.Instance().UpdateRowByWordsTable("favorite", 1, gArrListWords.get(position).word, mContext);
                 }
                 ImageView ivFavorite1 = itemView.findViewById(R.id.ivFavorite);
-                ivFavorite1.setImageResource((gArrListWords.get(position).favorite == 1)? R.drawable.iconfinder_instagram48: R.drawable.iconfindersed48);
+                ivFavorite1.setImageResource((gArrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
             }
         });
 

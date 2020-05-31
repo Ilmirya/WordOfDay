@@ -16,4 +16,10 @@
             android:icon="@drawable/heart64"
             android:title="Избранное" />
     </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/setting64"
+            android:title="Настройки" />
+    </group>
 </menu>

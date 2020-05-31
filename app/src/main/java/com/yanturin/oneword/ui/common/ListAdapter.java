@@ -54,7 +54,7 @@ public class ListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.tvItemFromList)).setText(arrListWords.get(position).word);
 
         ImageView ivItemFromList = view.findViewById(R.id.ivItemFromList);
-        ivItemFromList.setImageResource((arrListWords.get(position).favorite == 1)? R.drawable.iconfinder_instagram48: R.drawable.iconfindersed48);
+        ivItemFromList.setImageResource((arrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
         ivItemFromList.setTag(position);
         ivItemFromList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -69,7 +69,7 @@ public class ListAdapter extends BaseAdapter {
                 }
                 arrListWords.set(position, tmpWord);
                 ImageView ivItemFromList = v.findViewById(R.id.ivItemFromList);
-                ivItemFromList.setImageResource((arrListWords.get(position).favorite == 1)? R.drawable.iconfinder_instagram48: R.drawable.iconfindersed48);
+                ivItemFromList.setImageResource((arrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
             }
         });
         return view;

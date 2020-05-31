@@ -56,6 +56,8 @@ public class SqlQueries {
         int indexFavorite = cursor.getColumnIndex("favorite");
         int indexDate = cursor.getColumnIndex("date");
         int indexIndexes = cursor.getColumnIndex("_id");
+        int indexExample = cursor.getColumnIndex("example");
+        int indexCondition = cursor.getColumnIndex("condition");
 
         while (!cursor.isAfterLast()) {
             Word word = new Word();
@@ -64,6 +66,9 @@ public class SqlQueries {
             word.setDate(Helper.Instance().ParseDateFromString(cursor.getString(indexDate)));
             word.setFavorite(cursor.getInt(indexFavorite));
             word.setIndex(cursor.getInt(indexIndexes));
+
+            word.setExample(cursor.isNull(indexExample)? "": cursor.getString(indexExample));
+            word.setCondition(cursor.isNull(indexCondition)? "": cursor.getString(indexCondition));
             arrListWords.add(word);
 
             cursor.moveToNext();
