@@ -49,4 +49,18 @@ public class Helper {
         });
         return arr;
     }
+    public String ParseCondition(String condition){
+        String[] arrStr = condition.split(" ");
+        for(String str : arrStr){
+            switch (str){
+                case "и.":
+                    condition = condition.replace("и.","исем");
+                    break;
+                case "с.":
+                    condition = condition.replace("с.","сифат");
+                    break;
+            }
+        }
+        return condition;
+    }
 }

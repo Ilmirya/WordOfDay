@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
 import com.yanturin.oneword.SqlQueries;
@@ -22,11 +24,15 @@ import java.util.Date;
 import java.util.Random;
 
 public class HomeFragment extends Fragment {
-
+    private AdView mAdView;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        mAdView = root.findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        //adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+        mAdView.loadAd(adRequestBuilder.build());
         ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
         Date dtNow = new Date();
         boolean isToday = false;

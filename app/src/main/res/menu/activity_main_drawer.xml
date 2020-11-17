@@ -18,6 +18,10 @@
     </group>
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_admob"
+            android:icon="@drawable/ad64"
+            android:title="Реклама" />
+        <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/setting64"
             android:title="Настройки" />

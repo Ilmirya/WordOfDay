@@ -22,6 +22,11 @@
         android:label="Избранное"
         tools:layout="@layout/fragment_list_or_favorite" />
     <fragment
+        android:id="@+id/nav_admob"
+        android:name="com.yanturin.oneword.ui.admob.AdMobFragment"
+        android:label="Реклама"
+        tools:layout="@layout/fragment_ad_mob" />
+    <fragment
         android:id="@+id/nav_setting"
         android:name="com.yanturin.oneword.ui.setting.SettingFragment"
         android:label="Настройки"

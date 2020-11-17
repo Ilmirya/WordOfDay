@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1094913983410",
+    "firebase_url": "https://word-of-day-343b8.firebaseio.com",
+    "project_id": "word-of-day-343b8",
+    "storage_bucket": "word-of-day-343b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094913983410:android:f9c065f885826f86e95aab",
+        "android_client_info": {
+          "package_name": "com.yanturin.oneword"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094913983410-nlvnver0mmki107l574j4jrb396gpavb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMYaFHJ2Niv633XksHSMRRtiATPXtkrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094913983410-nlvnver0mmki107l574j4jrb396gpavb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

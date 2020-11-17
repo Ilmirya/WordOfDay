@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
 import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
@@ -57,7 +58,7 @@ public class ViewPagerAdapterHome extends PagerAdapter {
         TextView tvCondition = itemView.findViewById(R.id.tvCondition);
         tvWord.setText(gArrListWords.get(position).word);
         tvExample.setText(gArrListWords.get(position).example);
-        tvCondition.setText(gArrListWords.get(position).condition);
+        tvCondition.setText(Helper.Instance().ParseCondition(gArrListWords.get(position).condition));
         String explanation = gArrListWords.get(position).explanation;
         if(gArrListWords.get(position).explanation.contains("|")){
             String[] arrStrTmp = gArrListWords.get(position).explanation.replace('|','/').split("/");
