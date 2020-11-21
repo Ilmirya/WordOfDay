@@ -20,6 +20,7 @@ import com.yanturin.oneword.classes.Word;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -29,9 +30,7 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         mAdView = root.findViewById(R.id.adView);
-        //AdRequest adRequest = new AdRequest.Builder().build();
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-        //adRequestBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
         mAdView.loadAd(adRequestBuilder.build());
         ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
         Date dtNow = new Date();
@@ -51,10 +50,18 @@ public class HomeFragment extends Fragment {
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(dtNow), todayWord.word, root.getContext());
         }
+
+        Word forNextDay = new Word();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,1);
+        forNextDay.date = calendar.getTime();
+        forNextDay.explanation = "Новое слово будет ждать вас здесь завтра";
+
+        arrWordsForShow.add(forNextDay);
         ViewPager pager = root.findViewById(R.id.pagerHome);
         PagerAdapter adapter = new ViewPagerAdapterHome(root.getContext(), arrWordsForShow);
         pager.setAdapter(adapter);
-        pager.setCurrentItem(arrWordsForShow.size()-1);
+        pager.setCurrentItem(arrWordsForShow.size()-2);
         return root;
     }
 

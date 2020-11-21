@@ -7,7 +7,7 @@ public class Word {
 
     public String word;
     public String explanation;
-    public int favorite;
+    public Integer favorite;
     public Date date;
     public int index;
     public String symbol;
@@ -46,7 +46,7 @@ public class Word {
         this.explanation = explanation;
     }
 
-    public int getFavorite() {
+    public Integer getFavorite() {
         return favorite;
     }
 

@@ -50,6 +50,7 @@ public class Helper {
         return arr;
     }
     public String ParseCondition(String condition){
+        if(condition == null) return "";
         String[] arrStr = condition.split(" ");
         for(String str : arrStr){
             switch (str){
