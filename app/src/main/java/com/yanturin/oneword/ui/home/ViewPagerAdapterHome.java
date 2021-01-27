@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
 import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
+import com.yanturin.oneword.ui.common.ListAdapter;
 
 import org.w3c.dom.Text;
 
@@ -55,52 +57,53 @@ public class ViewPagerAdapterHome extends PagerAdapter {
         SimpleDateFormat iso8601Format = new SimpleDateFormat("dd.MM.yyyy");
         TextView tvDate = itemView.findViewById(R.id.tvDate);
         TextView tvWord = itemView.findViewById(R.id.tvWord);
-        TextView tvExplanation = itemView.findViewById(R.id.tvExplanation);
         ImageView ivFavorite = itemView.findViewById(R.id.ivFavorite);
-        TextView tvExample = itemView.findViewById(R.id.tvExample);
         TextView tvCondition = itemView.findViewById(R.id.tvCondition);
-        tvWord.setText(gArrListWords.get(position).word);
-        tvExample.setText(gArrListWords.get(position).example);
-        tvCondition.setText(Helper.Instance().ParseCondition(gArrListWords.get(position).condition));
-        String explanation = gArrListWords.get(position).explanation;
-        if(gArrListWords.get(position).explanation.contains("|")){
-            String[] arrStrTmp = gArrListWords.get(position).explanation.replace('|','/').split("/");
+        tvWord.setText(gArrListWords.get(position).getWord());
+        tvCondition.setText(Helper.Instance().ParseCondition(gArrListWords.get(position).getCondition()));
+        String explanation = gArrListWords.get(position).getExplanation();
+        String[] arrExplanation = gArrListWords.get(position).getExplanation().replace('|','/').split("/");
+
+        if(gArrListWords.get(position).getExplanation().contains("|")){
+            String[] arrStrTmp = gArrListWords.get(position).getExplanation().replace('|','/').split("/");
             for(int i = 0; i < arrStrTmp.length; i++){
                 if(i == 0) explanation = arrStrTmp[i];
                 else  explanation += "\n" + arrStrTmp[i];
             }
         }
         else{
-            explanation = gArrListWords.get(position).explanation;
+            explanation = gArrListWords.get(position).getExplanation();
         }
-        tvExplanation.setText(explanation);
+
+        ListView lvExplanation = itemView.findViewById(R.id.lvExplanation);
+        ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(itemView.getContext(), arrExplanation, gArrListWords.get(position).getExample());
+        lvExplanation.setAdapter(listExplanationAdapter);
+
         tvDate.setText(iso8601Format.format(gArrListWords.get(position).getDate()));
         // создаем обработчик нажатия
         if(gArrListWords.get(position).getFavorite() != null)
         {
-            ivFavorite.setImageResource((gArrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
+            ivFavorite.setImageResource((gArrListWords.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // создаем объект для данных
-                    if(gArrListWords.get(position).favorite == 1){
+                    if(gArrListWords.get(position).getFavorite() == 1){
                         Word tmpWord = gArrListWords.get(position);
                         tmpWord.setFavorite(0);
                         gArrListWords.set(position, tmpWord);
-                        SqlQueries.Instance().UpdateRowByWordsTable("favorite", 0, gArrListWords.get(position).word, mContext);
+                        SqlQueries.Instance().UpdateRowByWordsTable("favorite", 0, gArrListWords.get(position).getWord(), mContext);
                     }else{
                         Word tmpWord = gArrListWords.get(position);
                         tmpWord.setFavorite(1);
                         gArrListWords.set(position, tmpWord);
-                        SqlQueries.Instance().UpdateRowByWordsTable("favorite", 1, gArrListWords.get(position).word, mContext);
+                        SqlQueries.Instance().UpdateRowByWordsTable("favorite", 1, gArrListWords.get(position).getWord(), mContext);
                     }
                     ImageView ivFavorite1 = itemView.findViewById(R.id.ivFavorite);
-                    ivFavorite1.setImageResource((gArrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
+                    ivFavorite1.setImageResource((gArrListWords.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
                 }
             });
         }
-
-
 
         container.addView(itemView);
         return itemView;
