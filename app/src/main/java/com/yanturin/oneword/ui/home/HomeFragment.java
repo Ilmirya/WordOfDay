@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
         boolean isToday = false;
         if(arrWordsForShow.size() > 0){
             arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
-            if(dtNow.getDay() == arrWordsForShow.get(arrWordsForShow.size()-1).date.getDay() && dtNow.getMonth() == arrWordsForShow.get(arrWordsForShow.size()-1).date.getMonth() && dtNow.getYear() == arrWordsForShow.get(arrWordsForShow.size()-1).date.getYear()){
+            if(dtNow.getDay() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getDay() && dtNow.getMonth() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getMonth() && dtNow.getYear() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getYear()){
                 isToday = true;
             }
         }
@@ -45,17 +45,17 @@ public class HomeFragment extends Fragment {
             final Random random = new Random();
             ArrayList<Word> wordsWithoutDate = SqlQueries.Instance().GetWithoutDate(root.getContext());
             Word todayWord = wordsWithoutDate.get(random.nextInt(wordsWithoutDate.size()));
-            todayWord.date = dtNow;
+            todayWord.setDate(dtNow);
             arrWordsForShow.add(todayWord);
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(dtNow), todayWord.word, root.getContext());
+            SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(dtNow), todayWord.getWord(), root.getContext());
         }
 
         Word forNextDay = new Word();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE,1);
-        forNextDay.date = calendar.getTime();
-        forNextDay.explanation = "Новое слово будет ждать вас здесь завтра";
+        forNextDay.setDate(calendar.getTime());
+        forNextDay.setExplanation("Новое слово будет ждать вас здесь завтра");
 
         arrWordsForShow.add(forNextDay);
         ViewPager pager = root.findViewById(R.id.pagerHome);

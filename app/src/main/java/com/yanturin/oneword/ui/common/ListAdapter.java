@@ -51,25 +51,25 @@ public class ListAdapter extends BaseAdapter {
         if (view == null) {
             view = lInflater.inflate(R.layout.item_from_list, parent, false);
         }
-        ((TextView) view.findViewById(R.id.tvItemFromList)).setText(arrListWords.get(position).word);
+        ((TextView) view.findViewById(R.id.tvItemFromList)).setText(arrListWords.get(position).getWord());
 
         ImageView ivItemFromList = view.findViewById(R.id.ivItemFromList);
-        ivItemFromList.setImageResource((arrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
+        ivItemFromList.setImageResource((arrListWords.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
         ivItemFromList.setTag(position);
         ivItemFromList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int position =(Integer) v.getTag();
                 Word tmpWord = arrListWords.get(position);
-                if(arrListWords.get(position).favorite == 1){
+                if(arrListWords.get(position).getFavorite() == 1){
                     tmpWord.setFavorite(0);
-                    SqlQueries.Instance().UpdateRowByWordsTable("favorite", 0, arrListWords.get(position).word, ctx);
+                    SqlQueries.Instance().UpdateRowByWordsTable("favorite", 0, arrListWords.get(position).getWord(), ctx);
                 }else{
                     tmpWord.setFavorite(1);
-                    SqlQueries.Instance().UpdateRowByWordsTable("favorite", 1, arrListWords.get(position).word, ctx);
+                    SqlQueries.Instance().UpdateRowByWordsTable("favorite", 1, arrListWords.get(position).getWord(), ctx);
                 }
                 arrListWords.set(position, tmpWord);
                 ImageView ivItemFromList = v.findViewById(R.id.ivItemFromList);
-                ivItemFromList.setImageResource((arrListWords.get(position).favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
+                ivItemFromList.setImageResource((arrListWords.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
             }
         });
         return view;

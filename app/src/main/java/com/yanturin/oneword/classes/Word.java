@@ -5,14 +5,15 @@ import java.util.Date;
 
 public class Word {
 
-    public String word;
-    public String explanation;
-    public Integer favorite;
-    public Date date;
-    public int index;
-    public String symbol;
-    public String example;
-    public String condition;
+    private String word;
+    private String explanation;
+    private Integer favorite;
+    private Date date;
+    private int index;
+    private String symbol;
+    private String example;
+    private String condition;
+
     public String getCondition() {
         return condition;
     }

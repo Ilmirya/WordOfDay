@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.yanturin.oneword.ui.home.ListExplanationAdapter;
 
 public class SelectItemActivity extends AppCompatActivity {
 
@@ -33,11 +36,14 @@ public class SelectItemActivity extends AppCompatActivity {
 
         TextView tvDate = findViewById(R.id.tvDate);
         TextView tvWord = findViewById(R.id.tvWord);
-        TextView tvExplanation = findViewById(R.id.tvExplanation);
         ImageView ivFavorite = findViewById(R.id.ivFavorite);
         tvWord.setText(word);
-        tvExplanation.setText(explanation);
         tvDate.setText(date);
+
+        String[] arrExplanation = explanation.replace('|','/').split("/");
+        ListView lvExplanation = findViewById(R.id.lvExplanation);
+        ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(this, arrExplanation, "-");
+        lvExplanation.setAdapter(listExplanationAdapter);
 
         ivFavorite.setImageResource((favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);
 

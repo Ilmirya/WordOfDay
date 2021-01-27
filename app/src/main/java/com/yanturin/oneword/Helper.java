@@ -38,9 +38,9 @@ public class Helper {
         Collections.sort(arr, new Comparator<Word>() {
             @Override
             public int compare(Word word1, Word word2) {
-                if (word1.date.after(word2.date)) {
+                if (word1.getDate().after(word2.getDate())) {
                     return 1;
-                } else if (word1.date.before(word2.date)) {
+                } else if (word1.getDate().before(word2.getDate())) {
                     return -1;
                 } else {
                     return 0;

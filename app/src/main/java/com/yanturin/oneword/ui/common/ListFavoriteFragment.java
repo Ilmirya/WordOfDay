@@ -49,10 +49,10 @@ public class ListFavoriteFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(mContext, SelectItemActivity.class);
-                intent.putExtra(SelectItemActivity.WORD, arrListWords.get(position).word);
+                intent.putExtra(SelectItemActivity.WORD, arrListWords.get(position).getWord());
                 intent.putExtra(SelectItemActivity.DATE, arrListWords.get(position).getDateString());
-                intent.putExtra(SelectItemActivity.EXPLANATION, arrListWords.get(position).explanation);
-                intent.putExtra(SelectItemActivity.FAVORITE, arrListWords.get(position).favorite);
+                intent.putExtra(SelectItemActivity.EXPLANATION, arrListWords.get(position).getExplanation());
+                intent.putExtra(SelectItemActivity.FAVORITE, arrListWords.get(position).getFavorite());
                 startActivity(intent);
             }
         });
@@ -60,7 +60,6 @@ public class ListFavoriteFragment extends Fragment {
     }
 
     public void Main(){
-
         if(pageNumber == 0){
             arrListWords = SqlQueries.Instance().GetByDate(mContext);
         }else{
