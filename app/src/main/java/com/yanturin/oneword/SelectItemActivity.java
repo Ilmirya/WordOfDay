@@ -20,6 +20,7 @@ public class SelectItemActivity extends AppCompatActivity {
     public static final String DATE = "date";
     public static final String EXPLANATION = "explanation";
     public static final String FAVORITE = "favorite";
+    public static final String EXAMPLE = "example";
     int favorite;
     String word;
     @Override
@@ -33,6 +34,7 @@ public class SelectItemActivity extends AppCompatActivity {
         favorite = intent.getIntExtra(FAVORITE,0);
         String date = intent.getStringExtra(DATE);
         String explanation = intent.getStringExtra(EXPLANATION);
+        String example = intent.getStringExtra(EXAMPLE);
 
         TextView tvDate = findViewById(R.id.tvDate);
         TextView tvWord = findViewById(R.id.tvWord);
@@ -40,9 +42,8 @@ public class SelectItemActivity extends AppCompatActivity {
         tvWord.setText(word);
         tvDate.setText(date);
 
-        String[] arrExplanation = explanation.replace('|','/').split("/");
         ListView lvExplanation = findViewById(R.id.lvExplanation);
-        ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(this, arrExplanation, "-");
+        ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(this, explanation, example);
         lvExplanation.setAdapter(listExplanationAdapter);
 
         ivFavorite.setImageResource((favorite == 1)? R.drawable.greenheart24: R.drawable.heart24);

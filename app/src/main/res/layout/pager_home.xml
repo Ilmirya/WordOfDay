@@ -29,7 +29,7 @@
             android:layout_height="70dp"
             android:gravity="center"
             android:textColor="@color/colorTextName"
-            android:textSize="28sp" />
+            android:textSize="32sp" />
 
         <TextView
             android:id="@+id/tvCondition"

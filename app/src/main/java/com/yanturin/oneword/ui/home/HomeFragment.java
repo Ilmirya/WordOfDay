@@ -29,9 +29,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        mAdView = root.findViewById(R.id.adView);
+        //реклама
+        /*mAdView = root.findViewById(R.id.adView);
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
         mAdView.loadAd(adRequestBuilder.build());
+         */
         ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
         Date dtNow = new Date();
         boolean isToday = false;

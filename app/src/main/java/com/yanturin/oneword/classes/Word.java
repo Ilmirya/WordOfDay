@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Word {
-
     private String word;
     private String explanation;
     private Integer favorite;
@@ -21,7 +20,6 @@ public class Word {
     public void setCondition(String condition) {
         this.condition = condition;
     }
-
 
     public String getExample() {
         return example;

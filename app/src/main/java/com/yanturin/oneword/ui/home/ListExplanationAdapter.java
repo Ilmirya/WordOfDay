@@ -18,11 +18,21 @@ public class ListExplanationAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater lInflater;
     String[] arrExplanation;
-    String example;
-    public ListExplanationAdapter(Context context, String[] arrExplanation, String example) {
+    String[] arrExample;
+    public ListExplanationAdapter(Context context, String explanation, String example) {
         ctx = context;
-        this.arrExplanation = arrExplanation;
-        this.example = example;
+        if(explanation != null && explanation.contains("|")){
+            this.arrExplanation = explanation.replace('|','/').split("/");
+        }
+        else{
+            this.arrExplanation = new String[]{explanation};
+        }
+        if(example != null && example.contains("#")){
+            this.arrExample =  example.split("#");
+        }
+        else{
+            this.arrExample = new String[]{example};
+        }
         lInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -52,9 +62,12 @@ public class ListExplanationAdapter extends BaseAdapter {
         if (view == null) {
             view = lInflater.inflate(R.layout.item_explanation_from_list, parent, false);
         }
-        ((TextView) view.findViewById(R.id.tvItemExplanationFromList)).setText(arrExplanation[position]);
-        ((TextView) view.findViewById(R.id.tvItemExampleFromList)).setText(example);
 
+        ((TextView) view.findViewById(R.id.tvItemExplanationFromList)).setText(arrExplanation[position]);
+        if(arrExample.length > position) {
+            if(arrExample[position] != null && arrExample[position].contains("|")) ((TextView) view.findViewById(R.id.tvItemExampleFromList)).setText(arrExample[position].replace("|", "\n"));
+            else ((TextView) view.findViewById(R.id.tvItemExampleFromList)).setText(arrExample[position]);
+        }
         return view;
     }
 

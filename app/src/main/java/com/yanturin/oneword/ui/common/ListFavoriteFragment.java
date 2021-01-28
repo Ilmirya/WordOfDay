@@ -53,6 +53,7 @@ public class ListFavoriteFragment extends Fragment {
                 intent.putExtra(SelectItemActivity.DATE, arrListWords.get(position).getDateString());
                 intent.putExtra(SelectItemActivity.EXPLANATION, arrListWords.get(position).getExplanation());
                 intent.putExtra(SelectItemActivity.FAVORITE, arrListWords.get(position).getFavorite());
+                intent.putExtra(SelectItemActivity.EXAMPLE, arrListWords.get(position).getExample());
                 startActivity(intent);
             }
         });
