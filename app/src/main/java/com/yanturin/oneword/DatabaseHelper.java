@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static String DB_NAME = "wordOfDayTest.db";
+    private static String DB_NAME = "wordOfDay.db";
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
 
@@ -46,11 +46,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             mNeedUpdate = false;
         }
-    }
-
-    public void UpdateRowByWord(ContentValues cv, String word){
-        SQLiteDatabase db = getWritableDatabase();
-        int updCount = db.update("words", cv, "word = ?", new String[]{word});
     }
 
     private boolean checkDataBase() {

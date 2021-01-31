@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -32,10 +33,11 @@ import androidx.viewpager.widget.PagerAdapter;
 public class ViewPagerAdapterHome extends PagerAdapter {
     private Context mContext;
     private ArrayList<Word> gArrListWords;
-
-    public ViewPagerAdapterHome(Context context, ArrayList<Word> arrListWords) {
+    private  Map<String,String> dicCondition;
+    public ViewPagerAdapterHome(Context context, ArrayList<Word> arrListWords, Map<String,String> dicCondition) {
         this.mContext = context;
         this.gArrListWords = arrListWords;
+        this.dicCondition = dicCondition;
     }
 
     @Override
@@ -60,7 +62,8 @@ public class ViewPagerAdapterHome extends PagerAdapter {
         ImageView ivFavorite = itemView.findViewById(R.id.ivFavorite);
         TextView tvCondition = itemView.findViewById(R.id.tvCondition);
         tvWord.setText(gArrListWords.get(position).getWord());
-        tvCondition.setText(Helper.Instance().ParseCondition(gArrListWords.get(position).getCondition()));
+        tvCondition.setText(Helper.Instance().ParseCondition(gArrListWords.get(position).getCondition(), dicCondition));
+        //tvCondition.setText(gArrListWords.get(position).getCondition());
 
         ListView lvExplanation = itemView.findViewById(R.id.lvExplanation);
         ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(itemView.getContext(), gArrListWords.get(position).getExplanation(), gArrListWords.get(position).getExample());

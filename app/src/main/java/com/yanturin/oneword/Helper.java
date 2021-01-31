@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Map;
 
 public class Helper {
     private static Helper instance;
@@ -49,18 +50,11 @@ public class Helper {
         });
         return arr;
     }
-    public String ParseCondition(String condition){
+    public String ParseCondition(String condition, Map<String,String> dicCondition){
         if(condition == null) return "";
         String[] arrStr = condition.split(" ");
         for(String str : arrStr){
-            switch (str){
-                case "и.":
-                    condition = condition.replace("и.","исем");
-                    break;
-                case "с.":
-                    condition = condition.replace("с.","сифат");
-                    break;
-            }
+            condition = condition.replace(str,dicCondition.get(str));
         }
         return condition;
     }

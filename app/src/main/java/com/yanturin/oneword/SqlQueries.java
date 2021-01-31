@@ -10,6 +10,8 @@ import com.yanturin.oneword.classes.Word;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SqlQueries {
     private static SqlQueries instance;
@@ -93,4 +95,36 @@ public class SqlQueries {
         db.update("words", cv, "word = ?", new String[]{word});
         mDBHelper.close();
     }
+
+    public Map<String,String> GetCondition(Context context){
+        DatabaseHelper mDBHelper = new DatabaseHelper(context);
+        SQLiteDatabase mDb;
+        try {
+            mDBHelper.updateDataBase();
+        } catch (IOException mIOException) {
+            throw new Error("UnableToUpdateDatabase");
+        }
+
+        try {
+            mDb = mDBHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+        Map<String,String> dicCondition = new HashMap<String, String>();
+        Cursor cursor = mDb.rawQuery( "SELECT * FROM condition", null);
+
+        cursor.moveToFirst();
+        int indexCondition = cursor.getColumnIndex("condition");
+        int indexBash = cursor.getColumnIndex("bash");
+
+        while (!cursor.isAfterLast()) {
+            dicCondition.put(cursor.getString(indexCondition), cursor.getString(indexBash));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        mDBHelper.close();
+        return dicCondition;
+    }
+
+
 }
