@@ -17,11 +17,13 @@ import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
 import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
+import com.yanturin.oneword.ui.common.ListFavoriteFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
 
 public class HomeFragment extends Fragment {
@@ -29,15 +31,17 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
         //реклама
         /*mAdView = root.findViewById(R.id.adView);
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
         mAdView.loadAd(adRequestBuilder.build());
          */
         ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
+        Map<String,String> dicCondition = SqlQueries.Instance().GetCondition(root.getContext());
         Date dtNow = new Date();
         boolean isToday = false;
-        if(arrWordsForShow.size() > 0){
+        if(!arrWordsForShow.isEmpty()){
             arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
             if(dtNow.getDay() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getDay() && dtNow.getMonth() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getMonth() && dtNow.getYear() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getYear()){
                 isToday = true;
@@ -58,12 +62,21 @@ public class HomeFragment extends Fragment {
         calendar.add(Calendar.DATE,1);
         forNextDay.setDate(calendar.getTime());
         forNextDay.setExplanation("Новое слово будет ждать вас здесь завтра");
+        int currentItem = arrWordsForShow.size() - 1; //-1 тк с начало с нуля
+        Bundle bundle = getArguments();
+        if(bundle != null && bundle.containsKey(ListFavoriteFragment.SELECTED_WORD)){
+            for(int i = 0; i < arrWordsForShow.size(); i++){
+                if(arrWordsForShow.get(i).getWord().equals(bundle.getString(ListFavoriteFragment.SELECTED_WORD))){
+                    currentItem = i;
+                }
+            }
+        }
 
         arrWordsForShow.add(forNextDay);
         ViewPager pager = root.findViewById(R.id.pagerHome);
-        PagerAdapter adapter = new ViewPagerAdapterHome(root.getContext(), arrWordsForShow);
+        PagerAdapter adapter = new ViewPagerAdapterHome(root.getContext(), arrWordsForShow,dicCondition);
         pager.setAdapter(adapter);
-        pager.setCurrentItem(arrWordsForShow.size()-2);
+        pager.setCurrentItem(currentItem);
         return root;
     }
 

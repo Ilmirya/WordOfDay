@@ -14,7 +14,8 @@ import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
 
 import java.util.ArrayList;
-
+///class ListAdapter выводит список слов из ListFavoriteFragment
+///в пользовательском виде, т.е. Слово и рисунок
 public class ListAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater lInflater;

@@ -4,7 +4,7 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-
+//класс для скроллинга между избранными и изученными словами
 public class ListFavoriteFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private Context mContext;
     public ListFavoriteFragmentPagerAdapter(FragmentManager fm, Context context) {

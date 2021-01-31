@@ -1,7 +1,6 @@
 package com.yanturin.oneword.ui.common;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +9,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
-import com.yanturin.oneword.SelectItemActivity;
 import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
 
 import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
-
+import androidx.navigation.Navigation;
+///в этом классе выводятся списки слов,
+///которые изучены, избранные и тд
 public class ListFavoriteFragment extends Fragment {
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     static final String SAVE_PAGE_NUMBER = "save_page_number";
+    public static final String SELECTED_WORD = "selected_word";
 
     int pageNumber;
     static Context mContext;
@@ -48,13 +49,9 @@ public class ListFavoriteFragment extends Fragment {
         wordsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mContext, SelectItemActivity.class);
-                intent.putExtra(SelectItemActivity.WORD, arrListWords.get(position).getWord());
-                intent.putExtra(SelectItemActivity.DATE, arrListWords.get(position).getDateString());
-                intent.putExtra(SelectItemActivity.EXPLANATION, arrListWords.get(position).getExplanation());
-                intent.putExtra(SelectItemActivity.FAVORITE, arrListWords.get(position).getFavorite());
-                intent.putExtra(SelectItemActivity.EXAMPLE, arrListWords.get(position).getExample());
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putString(SELECTED_WORD, arrListWords.get(position).getWord());
+                Navigation.findNavController(view).navigate(R.id.nav_home, bundle);
             }
         });
         return view;
