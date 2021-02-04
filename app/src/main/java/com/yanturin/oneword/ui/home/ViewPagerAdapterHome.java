@@ -60,13 +60,10 @@ public class ViewPagerAdapterHome extends PagerAdapter {
         TextView tvDate = itemView.findViewById(R.id.tvDate);
         TextView tvWord = itemView.findViewById(R.id.tvWord);
         ImageView ivFavorite = itemView.findViewById(R.id.ivFavorite);
-        TextView tvCondition = itemView.findViewById(R.id.tvCondition);
         tvWord.setText(gArrListWords.get(position).getWord());
-        tvCondition.setText(Helper.Instance().ParseCondition(gArrListWords.get(position).getCondition(), dicCondition));
-        //tvCondition.setText(gArrListWords.get(position).getCondition());
 
         ListView lvExplanation = itemView.findViewById(R.id.lvExplanation);
-        ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(itemView.getContext(), gArrListWords.get(position).getExplanation(), gArrListWords.get(position).getExample());
+        ListExplanationAdapter listExplanationAdapter = new ListExplanationAdapter(itemView.getContext(), gArrListWords.get(position), dicCondition);
         lvExplanation.setAdapter(listExplanationAdapter);
 
         tvDate.setText(iso8601Format.format(gArrListWords.get(position).getDate()));

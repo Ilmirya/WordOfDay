@@ -8,31 +8,42 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yanturin.oneword.Helper;
 import com.yanturin.oneword.R;
 import com.yanturin.oneword.SqlQueries;
 import com.yanturin.oneword.classes.Word;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ListExplanationAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater lInflater;
     String[] arrExplanation;
     String[] arrExample;
-    public ListExplanationAdapter(Context context, String explanation, String example) {
+    String[] arrCondition;
+    private Map<String,String> dicCondition;
+    public ListExplanationAdapter(Context context, Word word, Map<String,String> dicCondition) {
         ctx = context;
-        if(explanation != null && explanation.contains("|")){
-            this.arrExplanation = explanation.replace('|','/').split("/");
+        if(word.getExplanation() != null && (word.getExplanation().contains("|") || word.getExplanation().contains("/"))){
+            this.arrExplanation = word.getExplanation().replace('|','/').split("/");
         }
         else{
-            this.arrExplanation = new String[]{explanation};
+            this.arrExplanation = new String[]{word.getExplanation()};
         }
-        if(example != null && example.contains("#")){
-            this.arrExample =  example.split("#");
+        if(word.getExample() != null && word.getExample().contains("#")){
+            this.arrExample =  word.getExample().split("#");
         }
         else{
-            this.arrExample = new String[]{example};
+            this.arrExample = new String[]{word.getExample()};
         }
+        if(word.getCondition() != null && word.getCondition().contains("#")){
+            this.arrCondition =  word.getCondition().split("#");
+        }
+        else{
+            this.arrCondition = new String[]{word.getCondition()};
+        }
+        this.dicCondition = dicCondition;
         lInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -67,6 +78,10 @@ public class ListExplanationAdapter extends BaseAdapter {
         if(arrExample.length > position) {
             if(arrExample[position] != null && arrExample[position].contains("|")) ((TextView) view.findViewById(R.id.tvItemExampleFromList)).setText(arrExample[position].replace("|", "\n"));
             else ((TextView) view.findViewById(R.id.tvItemExampleFromList)).setText(arrExample[position]);
+        }
+        if(arrCondition.length > position) {
+            ((TextView) view.findViewById(R.id.tvItemConditionFromList)).setText(Helper.Instance().ParseCondition(arrCondition[position], dicCondition));
+            //((TextView) view.findViewById(R.id.tvItemConditionFromList)).setText(arrCondition[position]);
         }
         return view;
     }

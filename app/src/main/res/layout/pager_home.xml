@@ -31,15 +31,6 @@
             android:textColor="@color/colorTextName"
             android:textSize="32sp" />
 
-        <TextView
-            android:id="@+id/tvCondition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="left"
-            android:textStyle="italic" />
-
         <ListView
             android:id="@+id/lvExplanation"
             android:layout_width="match_parent"

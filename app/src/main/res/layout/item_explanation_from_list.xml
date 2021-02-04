@@ -4,6 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <TextView
+        android:id="@+id/tvItemConditionFromList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textStyle="italic" />
+    <TextView
         android:id="@+id/tvItemExplanationFromList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
