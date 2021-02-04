@@ -54,8 +54,10 @@ public class Helper {
         if(condition == null) return "";
         String[] arrStr = condition.split(" ");
         for(String str : arrStr){
-            condition = condition.replace(str,dicCondition.get(str));
+            String fullCondition = dicCondition.get(str);
+            if(fullCondition == null) continue;
+            condition = condition.replace(str, fullCondition);
         }
-        return condition;
+        return condition.replace(" ", ", ");
     }
 }
