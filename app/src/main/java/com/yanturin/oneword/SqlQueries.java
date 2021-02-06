@@ -31,6 +31,9 @@ public class SqlQueries {
     public ArrayList<Word> GetWithoutDate(Context context){
         return TMPQuery(context, "SELECT * FROM words WHERE date IS NULL");
     }
+    public ArrayList<Word> GetRandomWordsWithoutDate(Context context, int count){
+        return TMPQuery(context, "SELECT * FROM words WHERE date IS NULL ORDER BY RANDOM() LIMIT " + count);
+    }
     public ArrayList<Word> GetByDateAndFavorite(Context context){
         return TMPQuery(context, "SELECT * FROM words WHERE date NOT NULL AND favorite = 1");
     }

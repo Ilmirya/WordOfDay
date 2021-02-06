@@ -58,13 +58,11 @@ public class HomeFragment extends Fragment {
             }
         }
         else{
-            final Random random = new Random();
             Calendar calendar =  Calendar.getInstance();
-            ArrayList<Word> wordsWithoutDate = SqlQueries.Instance().GetWithoutDate(root.getContext());
-            for(int i = 0; i < 5; i++){
-                int rdmIndex = random.nextInt(wordsWithoutDate.size());
-                Word todayWord = wordsWithoutDate.get(rdmIndex);
-                wordsWithoutDate.remove(rdmIndex);
+            int count = 5;
+            ArrayList<Word> wordsWithoutDate = SqlQueries.Instance().GetRandomWordsWithoutDate(root.getContext(),count);
+            for(int i = 0; i < count; i++){
+                Word todayWord = wordsWithoutDate.get(i);
                 calendar.add(Calendar.DAY_OF_YEAR,-1);
                 todayWord.setDate(calendar.getTime());
                 arrWordsForShow.add(todayWord);
@@ -74,9 +72,7 @@ public class HomeFragment extends Fragment {
             arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
         }
         if(!isToday){
-            final Random random = new Random();
-            ArrayList<Word> wordsWithoutDate = SqlQueries.Instance().GetWithoutDate(root.getContext());
-            Word todayWord = wordsWithoutDate.get(random.nextInt(wordsWithoutDate.size()));
+            Word todayWord = SqlQueries.Instance().GetRandomWordsWithoutDate(root.getContext(),1).get(0);
             todayWord.setDate(calendarToday.getTime());
             arrWordsForShow.add(todayWord);
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
