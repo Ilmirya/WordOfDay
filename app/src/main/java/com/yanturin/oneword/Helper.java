@@ -1,11 +1,6 @@
 package com.yanturin.oneword;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
 import com.yanturin.oneword.classes.Word;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package com.yanturin.oneword.classes;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Word {
@@ -60,7 +61,15 @@ public class Word {
         SimpleDateFormat iso8601Format = new SimpleDateFormat("dd.MM.yyyy");
         return iso8601Format.format(date);
     }
-
+    public Calendar getCalendar(){
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            return cal;
+        }catch (Exception ex){
+            return null;
+        }
+    }
     public void setDate(Date date) {
         this.date = date;
     }

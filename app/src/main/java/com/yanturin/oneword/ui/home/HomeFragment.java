@@ -39,11 +39,21 @@ public class HomeFragment extends Fragment {
          */
         ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
         Map<String,String> dicCondition = SqlQueries.Instance().GetCondition(root.getContext());
-        Date dtNow = new Date();
+        Calendar calendarToday =  Calendar.getInstance();
+        if(!arrWordsForShow.isEmpty()){
+            for(int i = 0; i < arrWordsForShow.size(); i++){
+                if(arrWordsForShow.get(i).getCalendar() == null){
+                    SqlQueries.Instance().UpdateRowByWordsTable("date", null,  arrWordsForShow.get(i).getWord(), root.getContext());
+                    arrWordsForShow.remove(i);
+                    i--;
+                }
+            }
+        }
+
         boolean isToday = false;
         if(!arrWordsForShow.isEmpty()){
             arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
-            if(dtNow.getDay() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getDay() && dtNow.getMonth() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getMonth() && dtNow.getYear() == arrWordsForShow.get(arrWordsForShow.size()-1).getDate().getYear()){
+            if(calendarToday.get(Calendar.DAY_OF_YEAR) == arrWordsForShow.get(arrWordsForShow.size() - 1).getCalendar().get(Calendar.DAY_OF_YEAR) && calendarToday.get(Calendar.YEAR)== arrWordsForShow.get(arrWordsForShow.size() - 1).getCalendar().get(Calendar.YEAR)){
                 isToday = true;
             }
         }
@@ -67,17 +77,16 @@ public class HomeFragment extends Fragment {
             final Random random = new Random();
             ArrayList<Word> wordsWithoutDate = SqlQueries.Instance().GetWithoutDate(root.getContext());
             Word todayWord = wordsWithoutDate.get(random.nextInt(wordsWithoutDate.size()));
-            todayWord.setDate(dtNow);
+            todayWord.setDate(calendarToday.getTime());
             arrWordsForShow.add(todayWord);
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(dtNow), todayWord.getWord(), root.getContext());
+            SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(calendarToday.getTime()), todayWord.getWord(), root.getContext());
         }
 
-        Word forNextDay = new Word();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,1);
-        forNextDay.setDate(calendar.getTime());
-        forNextDay.setExplanation("Новое слово будет ждать вас здесь завтра");
+        Word tomorrowWord = new Word();
+        calendarToday.add(Calendar.DATE,1);//tomorrow
+        tomorrowWord.setDate(calendarToday.getTime());
+        tomorrowWord.setExplanation("Новое слово будет ждать вас здесь завтра");
         int currentItem = arrWordsForShow.size() - 1; //-1 тк с начало с нуля
         Bundle bundle = getArguments();
         if(bundle != null && bundle.containsKey(ListFavoriteFragment.SELECTED_WORD)){
@@ -88,7 +97,7 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        arrWordsForShow.add(forNextDay);
+        arrWordsForShow.add(tomorrowWord);
         ViewPager pager = root.findViewById(R.id.pagerHome);
         PagerAdapter adapter = new ViewPagerAdapterHome(root.getContext(), arrWordsForShow,dicCondition);
         pager.setAdapter(adapter);
