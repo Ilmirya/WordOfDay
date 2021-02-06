@@ -40,6 +40,7 @@ public class SqlQueries {
 
     private ArrayList<Word> TMPQuery(Context context, String query){
         DatabaseHelper mDBHelper = new DatabaseHelper(context);
+        ArrayList<Word> arrListWords  = new ArrayList<>();
         SQLiteDatabase mDb;
         try {
             mDBHelper.updateDataBase();
@@ -50,9 +51,8 @@ public class SqlQueries {
         try {
             mDb = mDBHelper.getWritableDatabase();
         } catch (SQLException mSQLException) {
-            throw mSQLException;
+            throw new Error("mDBHelper.getWritableDatabase()" + mSQLException.getMessage());
         }
-        ArrayList<Word> arrListWords  = new ArrayList<>();
         Cursor cursor = mDb.rawQuery(query, null);
 
         cursor.moveToFirst();
@@ -101,6 +101,7 @@ public class SqlQueries {
 
     public Map<String,String> GetCondition(Context context){
         DatabaseHelper mDBHelper = new DatabaseHelper(context);
+        Map<String,String> dicCondition = new HashMap<>();
         SQLiteDatabase mDb;
         try {
             mDBHelper.updateDataBase();
@@ -111,9 +112,8 @@ public class SqlQueries {
         try {
             mDb = mDBHelper.getWritableDatabase();
         } catch (SQLException mSQLException) {
-            throw mSQLException;
+            return dicCondition;
         }
-        Map<String,String> dicCondition = new HashMap<String, String>();
         Cursor cursor = mDb.rawQuery( "SELECT * FROM condition", null);
 
         cursor.moveToFirst();
