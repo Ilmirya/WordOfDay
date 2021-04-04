@@ -5,88 +5,97 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Word {
-    private String word;
-    private String explanation;
-    private Integer favorite;
-    private Date date;
-    private int index;
-    private String symbol;
-    private String example;
-    private String condition;
+    public static final String WORD = "word";
+    public static final String EXPLANATION = "explanation";
+    public static final String FAVORITE = "favorite";
+    public static final String DATE = "date";
+    public static final String INDEX = "_id";
+    public static final String SYMBOL = "symbol";
+    public static final String EXAMPLE = "example";
+    public static final String CONDITION = "condition";
+
+    private String _word;
+    private String _explanation;
+    private Integer _favorite;
+    private Date _date;
+    private int _index;
+    private String _symbol;
+    private String _example;
+    private String _condition;
 
     public String getCondition() {
-        return condition;
+        return _condition;
     }
 
     public void setCondition(String condition) {
-        this.condition = condition;
+        this._condition = condition;
     }
 
     public String getExample() {
-        return example;
+        return _example;
     }
 
     public void setExample(String example) {
-        this.example = example;
+        this._example = example;
     }
 
     public String getWord() {
-        return word;
+        return _word;
     }
 
     public void setWord(String word) {
-        this.word = word;
+        this._word = word;
     }
 
     public String getExplanation() {
-        return explanation;
+        return _explanation;
     }
 
     public void setExplanation(String explanation) {
-        this.explanation = explanation;
+        this._explanation = explanation;
     }
 
     public Integer getFavorite() {
-        return favorite;
+        return _favorite;
     }
 
     public void setFavorite(int favorite) {
-        this.favorite = favorite;
+        this._favorite = favorite;
     }
 
     public Date getDate() {
-        return date;
+        return _date;
     }
     public String getDateString(){
         SimpleDateFormat iso8601Format = new SimpleDateFormat("dd.MM.yyyy");
-        return iso8601Format.format(date);
+        return iso8601Format.format(_date);
     }
     public Calendar getCalendar(){
         try {
             Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
+            cal.setTime(_date);
             return cal;
         }catch (Exception ex){
             return null;
         }
     }
     public void setDate(Date date) {
-        this.date = date;
+        this._date = date;
     }
 
     public int getIndex() {
-        return index;
+        return _index;
     }
 
     public void setIndex(int index) {
-        this.index = index;
+        this._index = index;
     }
 
     public String getSymbol() {
-        return symbol;
+        return _symbol;
     }
 
     public void setSymbol(String symbol) {
-        this.symbol = symbol;
+        this._symbol = symbol;
     }
 }

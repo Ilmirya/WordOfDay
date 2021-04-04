@@ -1,6 +1,5 @@
 package com.yanturin.oneword.ui.common;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,28 +16,25 @@ import java.util.ArrayList;
 ///class ListAdapter выводит список слов из ListFavoriteFragment
 ///в пользовательском виде, т.е. Слово и рисунок
 public class ListAdapter extends BaseAdapter {
-    Context ctx;
-    LayoutInflater lInflater;
-    ArrayList<Word> arrListWords;
-    public ListAdapter(Context context, ArrayList<Word> arrListWords) {
-        ctx = context;
-        this.arrListWords = arrListWords;
-        lInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private Context _context;
+    private LayoutInflater _layoutInflater;
+    private ArrayList<Word> _words;
+    public ListAdapter(Context context, ArrayList<Word> words) {
+        _context = context;
+        _words = words;
+        _layoutInflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    // кол-во элементов
     @Override
     public int getCount() {
-        return arrListWords.size();
+        return _words.size();
     }
 
-    // элемент по позиции
     @Override
     public Object getItem(int position) {
-        return arrListWords.get(position);
+        return _words.get(position);
     }
 
-    // id по позиции
     @Override
     public long getItemId(int position) {
         return position;
@@ -47,30 +43,29 @@ public class ListAdapter extends BaseAdapter {
     // пункт списка
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // используем созданные, но не используемые view
         View view = convertView;
         if (view == null) {
-            view = lInflater.inflate(R.layout.item_from_list, parent, false);
+            view = _layoutInflater.inflate(R.layout.item_from_list, parent, false);
         }
-        ((TextView) view.findViewById(R.id.tvItemFromList)).setText(arrListWords.get(position).getWord());
+        ((TextView) view.findViewById(R.id.tvItemFromList)).setText(_words.get(position).getWord());
 
         ImageView ivItemFromList = view.findViewById(R.id.ivItemFromList);
-        ivItemFromList.setImageResource((arrListWords.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
+        ivItemFromList.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
         ivItemFromList.setTag(position);
         ivItemFromList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int position =(Integer) v.getTag();
-                Word tmpWord = arrListWords.get(position);
-                if(arrListWords.get(position).getFavorite() == 1){
+                Word tmpWord = _words.get(position);
+                if(_words.get(position).getFavorite() == 1){
                     tmpWord.setFavorite(0);
-                    SqlQueries.Instance().UpdateRowByWordsTable("favorite", 0, arrListWords.get(position).getWord(), ctx);
+                    SqlQueries.Instance().UpdateRowByWordsTable(Word.FAVORITE, 0, _words.get(position).getWord(), _context);
                 }else{
                     tmpWord.setFavorite(1);
-                    SqlQueries.Instance().UpdateRowByWordsTable("favorite", 1, arrListWords.get(position).getWord(), ctx);
+                    SqlQueries.Instance().UpdateRowByWordsTable(Word.FAVORITE, 1, _words.get(position).getWord(), _context);
                 }
-                arrListWords.set(position, tmpWord);
+                _words.set(position, tmpWord);
                 ImageView ivItemFromList = v.findViewById(R.id.ivItemFromList);
-                ivItemFromList.setImageResource((arrListWords.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
+                ivItemFromList.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.greenheart24: R.drawable.heart24);
             }
         });
         return view;

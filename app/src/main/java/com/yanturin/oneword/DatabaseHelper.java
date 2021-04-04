@@ -1,12 +1,9 @@
 package com.yanturin.oneword;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.yanturin.oneword.classes.Word;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,8 +16,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
 
-    private SQLiteDatabase mDataBase;
-    private final Context mContext;
+    private SQLiteDatabase _dataBase;
+    private final Context _context;
     private boolean mNeedUpdate = false;
 
     public DatabaseHelper(Context context) {
@@ -29,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
         else
             DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
-        this.mContext = context;
+        this._context = context;
 
         copyDataBase();
 
@@ -66,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void copyDBFile() throws IOException {
-        InputStream mInput = mContext.getAssets().open(DB_NAME);
+        InputStream mInput = _context.getAssets().open(DB_NAME);
         //InputStream mInput = mContext.getResources().openRawResource(R.raw.info);
         OutputStream mOutput = new FileOutputStream(DB_PATH + DB_NAME);
         byte[] mBuffer = new byte[1024];
@@ -79,14 +76,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean openDataBase() throws SQLException {
-        mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        return mDataBase != null;
+        _dataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        return _dataBase != null;
     }
 
     @Override
     public synchronized void close() {
-        if (mDataBase != null)
-            mDataBase.close();
+        if (_dataBase != null)
+            _dataBase.close();
         super.close();
     }
 

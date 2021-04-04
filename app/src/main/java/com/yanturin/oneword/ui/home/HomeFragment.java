@@ -1,6 +1,5 @@
 package com.yanturin.oneword.ui.home;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,28 +21,24 @@ import com.yanturin.oneword.ui.common.ListFavoriteFragment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
-import java.util.Random;
 
 public class HomeFragment extends Fragment {
-    private AdView mAdView;
+    private AdView _adBanner;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //реклама
-        /*mAdView = root.findViewById(R.id.adView);
+        _adBanner = root.findViewById(R.id.adBanner);
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-        mAdView.loadAd(adRequestBuilder.build());
-         */
+        _adBanner.loadAd(adRequestBuilder.build());
+
         ArrayList<Word> arrWordsForShow = SqlQueries.Instance().GetByDate(root.getContext());
         Map<String,String> dicCondition = SqlQueries.Instance().GetCondition(root.getContext());
         Calendar calendarToday =  Calendar.getInstance();
         if(!arrWordsForShow.isEmpty()){
             for(int i = 0; i < arrWordsForShow.size(); i++){
                 if(arrWordsForShow.get(i).getCalendar() == null){
-                    SqlQueries.Instance().UpdateRowByWordsTable("date", null,  arrWordsForShow.get(i).getWord(), root.getContext());
+                    SqlQueries.Instance().UpdateRowByWordsTable(Word.DATE, null,  arrWordsForShow.get(i).getWord(), root.getContext());
                     arrWordsForShow.remove(i);
                     i--;
                 }
@@ -52,7 +47,7 @@ public class HomeFragment extends Fragment {
 
         boolean isToday = false;
         if(!arrWordsForShow.isEmpty()){
-            arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
+            arrWordsForShow = Helper.sortByDate(arrWordsForShow);
             if(calendarToday.get(Calendar.DAY_OF_YEAR) == arrWordsForShow.get(arrWordsForShow.size() - 1).getCalendar().get(Calendar.DAY_OF_YEAR) && calendarToday.get(Calendar.YEAR)== arrWordsForShow.get(arrWordsForShow.size() - 1).getCalendar().get(Calendar.YEAR)){
                 isToday = true;
             }
@@ -67,16 +62,16 @@ public class HomeFragment extends Fragment {
                 todayWord.setDate(calendar.getTime());
                 arrWordsForShow.add(todayWord);
                 SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(calendar.getTime()), todayWord.getWord(), root.getContext());
+                SqlQueries.Instance().UpdateRowByWordsTable(Word.DATE, iso8601Format.format(calendar.getTime()), todayWord.getWord(), root.getContext());
             }
-            arrWordsForShow = Helper.Instance().sortByDate(arrWordsForShow);
+            arrWordsForShow = Helper.sortByDate(arrWordsForShow);
         }
         if(!isToday){
             Word todayWord = SqlQueries.Instance().GetRandomWordsWithoutDate(root.getContext(),1).get(0);
             todayWord.setDate(calendarToday.getTime());
             arrWordsForShow.add(todayWord);
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SqlQueries.Instance().UpdateRowByWordsTable("date", iso8601Format.format(calendarToday.getTime()), todayWord.getWord(), root.getContext());
+            SqlQueries.Instance().UpdateRowByWordsTable(Word.DATE, iso8601Format.format(calendarToday.getTime()), todayWord.getWord(), root.getContext());
         }
 
         Word tomorrowWord = new Word();

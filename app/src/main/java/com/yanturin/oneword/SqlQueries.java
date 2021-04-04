@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SqlQueries {
-    private static SqlQueries instance;
+    private static SqlQueries _instance;
     public static synchronized SqlQueries Instance() {
-        if (instance == null) {
-            instance = new SqlQueries();
+        if (_instance == null) {
+            _instance = new SqlQueries();
         }
-        return instance;
+        return _instance;
     }
     public ArrayList<Word> GetAll(Context context){
         return TMPQuery(context, "SELECT * FROM words");
@@ -56,19 +56,19 @@ public class SqlQueries {
         Cursor cursor = mDb.rawQuery(query, null);
 
         cursor.moveToFirst();
-        int indexWord = cursor.getColumnIndex("word");
-        int indexExplanation = cursor.getColumnIndex("explanation");
-        int indexFavorite = cursor.getColumnIndex("favorite");
-        int indexDate = cursor.getColumnIndex("date");
-        int indexIndexes = cursor.getColumnIndex("_id");
-        int indexExample = cursor.getColumnIndex("example");
-        int indexCondition = cursor.getColumnIndex("condition");
+        int indexWord = cursor.getColumnIndex(Word.WORD);
+        int indexExplanation = cursor.getColumnIndex(Word.EXPLANATION);
+        int indexFavorite = cursor.getColumnIndex(Word.FAVORITE);
+        int indexDate = cursor.getColumnIndex(Word.DATE);
+        int indexIndexes = cursor.getColumnIndex(Word.INDEX);
+        int indexExample = cursor.getColumnIndex(Word.EXAMPLE);
+        int indexCondition = cursor.getColumnIndex(Word.CONDITION);
 
         while (!cursor.isAfterLast()) {
             Word word = new Word();
             word.setWord(cursor.getString(indexWord));
             word.setExplanation(cursor.getString(indexExplanation));
-            word.setDate(Helper.Instance().ParseDateFromString(cursor.getString(indexDate)));
+            word.setDate(Helper.ParseDateFromString(cursor.getString(indexDate)));
             word.setFavorite(cursor.getInt(indexFavorite));
             word.setIndex(cursor.getInt(indexIndexes));
 
@@ -117,7 +117,7 @@ public class SqlQueries {
         Cursor cursor = mDb.rawQuery( "SELECT * FROM condition", null);
 
         cursor.moveToFirst();
-        int indexCondition = cursor.getColumnIndex("condition");
+        int indexCondition = cursor.getColumnIndex(Word.CONDITION);
         int indexBash = cursor.getColumnIndex("bash");
 
         while (!cursor.isAfterLast()) {

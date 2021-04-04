@@ -6,17 +6,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 //класс для скроллинга между избранными и изученными словами
 public class ListFavoriteFragmentPagerAdapter extends FragmentStatePagerAdapter {
-    private Context mContext;
+    private Context _context;
     public ListFavoriteFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
-        this.mContext = context;
+        _context = context;
     }
 
     public int getItemPosition (Object object) { return POSITION_NONE; }
 
     @Override
     public Fragment getItem(int position) {
-        return ListFavoriteFragment.newInstance(position, mContext);
+        return ListFavoriteFragment.newInstance(position, _context);
     }
 
     @Override

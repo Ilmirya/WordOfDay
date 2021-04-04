@@ -16,25 +16,25 @@ import com.yanturin.oneword.R;
 import com.yanturin.oneword.ui.common.ListFavoriteFragmentPagerAdapter;
 
 public class ListFragment extends Fragment {
-    PagerAdapter pagerAdapter;
-    View root;
+    private PagerAdapter _pagerAdapter;
+    private View _view;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_list_or_favorite, container, false);
+        _view = inflater.inflate(R.layout.fragment_list_or_favorite, container, false);
 
-        ViewPager pager = root.findViewById(R.id.pagerFavorite);
-        pagerAdapter = new ListFavoriteFragmentPagerAdapter(getFragmentManager(), root.getContext());
-        pager.setAdapter(pagerAdapter);
+        ViewPager pager = _view.findViewById(R.id.pagerFavorite);
+        _pagerAdapter = new ListFavoriteFragmentPagerAdapter(getFragmentManager(), _view.getContext());
+        pager.setAdapter(_pagerAdapter);
         pager.setCurrentItem(0);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
-                pagerAdapter.notifyDataSetChanged();
+                _pagerAdapter.notifyDataSetChanged();
                 if(position == 0){
-                    Navigation.findNavController(root).navigate(R.id.nav_list);
+                    Navigation.findNavController(_view).navigate(R.id.nav_list);
                 }else{
-                    Navigation.findNavController(root).navigate(R.id.nav_favorite);
+                    Navigation.findNavController(_view).navigate(R.id.nav_favorite);
                 }
             }
             @Override
@@ -46,10 +46,10 @@ public class ListFragment extends Fragment {
             }
         });
 
-
-        TabLayout tabLayout = root.findViewById(R.id.tabs);
+        TabLayout tabLayout = _view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
 
-        return root;
+        return _view;
     }
+
 }

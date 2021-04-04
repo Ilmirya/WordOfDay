@@ -19,60 +19,63 @@ import androidx.navigation.Navigation;
 ///в этом классе выводятся списки слов,
 ///которые изучены, избранные и тд
 public class ListFavoriteFragment extends Fragment {
-    static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    static final String SAVE_PAGE_NUMBER = "save_page_number";
+    private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
+    private static final String SAVE_PAGE_NUMBER = "save_page_number";
     public static final String SELECTED_WORD = "selected_word";
 
-    int pageNumber;
-    static Context mContext;
+    private int _pageNumber;
+    private static Context _context;
+
+    private ListView _wordsListView;
+    private View _view;
+    private ArrayList<Word> _words;
+
     public static ListFavoriteFragment newInstance(int page, Context context) {
         ListFavoriteFragment pageFragment = new ListFavoriteFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
         pageFragment.setArguments(arguments);
-        mContext = context;
+        _context = context;
         return pageFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
+        _pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
     }
-    ListView wordsListView;
-    View view;
-    ArrayList<Word> arrListWords;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.pager_list, null);
-        wordsListView = view.findViewById(R.id.countriesList);
-        wordsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        _view = inflater.inflate(R.layout.pager_list, null);
+        _wordsListView = _view.findViewById(R.id.countriesList);
+        _wordsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString(SELECTED_WORD, arrListWords.get(position).getWord());
+                bundle.putString(SELECTED_WORD, _words.get(position).getWord());
                 Navigation.findNavController(view).navigate(R.id.nav_home, bundle);
             }
         });
-        return view;
+        return _view;
     }
 
     public void Main(){
-        if(pageNumber == 0){
-            arrListWords = SqlQueries.Instance().GetByDate(mContext);
+        if(_pageNumber == 0){
+            _words = SqlQueries.Instance().GetByDate(_context);
         }else{
-            arrListWords = SqlQueries.Instance().GetByDateAndFavorite(mContext);
+            _words = SqlQueries.Instance().GetByDateAndFavorite(_context);
         }
-        arrListWords = Helper.Instance().sortByDate(arrListWords);
+        _words = Helper.sortByDate(_words);
 
-        ListAdapter listAdapter = new ListAdapter(view.getContext(), arrListWords);
-        wordsListView.setAdapter(listAdapter);
+        ListAdapter listAdapter = new ListAdapter(_view.getContext(), _words);
+        _wordsListView.setAdapter(listAdapter);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+        outState.putInt(SAVE_PAGE_NUMBER, _pageNumber);
     }
 
     @Override
@@ -83,7 +86,7 @@ public class ListFavoriteFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        if(wordsListView == null || view == null) return;
+        if(_wordsListView == null || _view == null) return;
         Main();
     }
 }
