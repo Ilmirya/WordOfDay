@@ -10,16 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Helper {
-    private static Helper instance;
-
-    public static synchronized Helper Instance() {
-        if (instance == null) {
-            instance = new Helper();
-        }
-        return instance;
-    }
-
-    public Date ParseDateFromString(String timeToFormat) {
+    public static Date ParseDateFromString(String timeToFormat) {
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date;
         if (timeToFormat == null) return null;
@@ -30,7 +21,7 @@ public class Helper {
         }
         return date;
     }
-    public ArrayList<Word> sortByDate(ArrayList<Word> arr) {
+    public static ArrayList<Word> sortByDate(ArrayList<Word> arr) {
         Collections.sort(arr, new Comparator<Word>() {
             @Override
             public int compare(Word word1, Word word2) {
@@ -45,7 +36,7 @@ public class Helper {
         });
         return arr;
     }
-    public String ParseCondition(String condition, Map<String,String> dicCondition){
+    public static String ParseCondition(String condition, Map<String,String> dicCondition){
         if(condition == null) return "";
         String[] arrStr = condition.split(" ");
         for(String str : arrStr){
