@@ -10,13 +10,13 @@
         <item
             android:id="@+id/nav_list"
             android:icon="@drawable/list64_1"
-            android:title="Изученные слова" />
+            android:title="@string/learned_word" />
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/heart64"
-            android:title="Избранное" />
+            android:title="@string/favorites" />
     </group>
-    <group android:checkableBehavior="single">
+    <!--<group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_admob"
             android:icon="@drawable/ad64"
@@ -25,5 +25,5 @@
             android:id="@+id/nav_setting"
             android:icon="@drawable/setting64"
             android:title="Настройки" />
-    </group>
+    </group>-->
 </menu>
