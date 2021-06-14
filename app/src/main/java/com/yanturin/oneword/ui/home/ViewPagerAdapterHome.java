@@ -60,7 +60,7 @@ public class ViewPagerAdapterHome extends PagerAdapter {
         // создаем обработчик нажатия
         if(_words.get(position).getFavorite() != null)
         {
-            ivFavorite.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellowheart24: R.drawable.heart24);
+            ivFavorite.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellow_heart24: R.drawable.heart24);
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,7 +77,7 @@ public class ViewPagerAdapterHome extends PagerAdapter {
                         SqlQueries.Instance().UpdateRowByWordsTable(Word.FAVORITE, 1, _words.get(position).getWord(), _context);
                     }
                     ImageView ivFavorite1 = itemView.findViewById(R.id.ivFavorite);
-                    ivFavorite1.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellowheart24: R.drawable.heart24);
+                    ivFavorite1.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellow_heart24: R.drawable.heart24);
                 }
             });
         }

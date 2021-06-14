@@ -50,7 +50,7 @@ public class ListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.tvItemFromList)).setText(_words.get(position).getWord());
 
         ImageView ivItemFromList = view.findViewById(R.id.ivItemFromList);
-        ivItemFromList.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellowheart24: R.drawable.heart24);
+        ivItemFromList.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellow_heart24: R.drawable.heart24);
         ivItemFromList.setTag(position);
         ivItemFromList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class ListAdapter extends BaseAdapter {
                 }
                 _words.set(position, tmpWord);
                 ImageView ivItemFromList = v.findViewById(R.id.ivItemFromList);
-                ivItemFromList.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellowheart24: R.drawable.heart24);
+                ivItemFromList.setImageResource((_words.get(position).getFavorite() == 1)? R.drawable.yellow_heart24: R.drawable.heart24);
             }
         });
         return view;
